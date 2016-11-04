@@ -1,0 +1,26 @@
+{
+  "name": "cpt-git",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acomodeo/cpt-git.git"
+  },
+  "author": "Leon Strauss <leon.strauss@acomodeo.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Acomodeo/cpt-git/issues"
+  },
+  "homepage": "https://github.com/Acomodeo/cpt-git#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-basic-auth": "^0.2.2",
+    "json-schema-validation-middleware": "^4.3.2",
+    "mongoennung": "github:acomodeo/mongoennung"
+  }
+}
