@@ -1,22 +1,11 @@
 var router = require('express').Router();
 var assertError = require('assert').ifError;
-
 var bodyParser = require('body-parser');
-
-
-//var jsonSchemaMiddleware = require('json-schema-validation-middleware');
-
 var db = require('mongoennung');
-
-
-//var newUserSchema = require('./new-user.schema.json');
 
 var collection = db.collection('repositories');
 
-
-
 router.use(bodyParser.json());
-
 
 router.route('/')
     .post(handlePost)
@@ -30,9 +19,9 @@ router.route('/:id')
     .put(handlePut)
     .delete(handleDelete);
 
+router.use('/:id/remotes', require('./remotes'));
+
 function handlePut(req, res) {
-    
-    
     collection.replaceOne({ _id: req.repository._id }, transformToInner(req.repository), onReplaced);
 
     function onReplaced(err, result) {
@@ -43,7 +32,6 @@ function handlePut(req, res) {
 }
 
 function handleGetAll(req, res) {
-    
     collection.find({}).map(transformToOuter).toArray(onFind);
 
     function onFind(err, result) {
@@ -51,17 +39,13 @@ function handleGetAll(req, res) {
 
         res.status(200).json(result);
     }
-    
 }
 
 function handleGetOne(req, res) {
-    
-    res.status(200).json(req.repository);
-    
+    res.status(200).json(transformToOuter(req.repository));
 };
 
 function handlePost(req, res) {
-    
     var repository = req.body;
 
     collection.findOne({ _id: repository.name }, { _id: 1 }, onFind);
@@ -81,11 +65,10 @@ function handlePost(req, res) {
         res.set('Location', '/repositories/' + repository._id);
         return res.status(201).json(result.ops[0]);
     }
-    
+
 }
 
 function handlePatch(req, res) {
-    
     collection.updateOne(
         { _id: req['repository']._id },
         { $set: req.body },
@@ -97,11 +80,19 @@ function handlePatch(req, res) {
 
         res.status(204).send();
     }
-    
+}
+
+function handleDelete(req, res) {
+    collection.remove({ _id: req.repository._id }, onRemoved);
+
+    function onRemoved(err) {
+        assertError(err);
+
+        return res.status(204).send('');
+    }
 }
 
 function idMiddleware(req, res, next, id) {
-    
     collection.findOne({ _id: id }, onFind);
 
     function onFind(err, result) {
@@ -114,9 +105,7 @@ function idMiddleware(req, res, next, id) {
 
         next();
     }
-    
 }
-
 
 function transformToInner(repository) {
     repository._id = repository.name;
@@ -131,6 +120,5 @@ function transformToOuter(repository) {
 
     return repository;
 }
-
 
 module.exports = router;

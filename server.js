@@ -1,7 +1,10 @@
 var assert = require('assert');
 var express = require('express');
+var db = require('mongoennung');
 
 var PORT = process.env.PORT || 8080;
+
+db.connect('mongodb://localhost:27017/cpt-git', startServer);
 
 function startServer(err) {
     assert.ifError(err);
@@ -16,5 +19,3 @@ function startServer(err) {
         console.log('Listening on' + host + ':' + port);
     });
 }
-
-startServer(null);
