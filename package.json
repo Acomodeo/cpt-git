@@ -21,6 +21,8 @@
     "express": "^4.14.0",
     "express-basic-auth": "^0.2.2",
     "json-schema-validation-middleware": "^4.3.2",
-    "mongoennung": "github:acomodeo/mongoennung"
+    "mongoennung": "github:acomodeo/mongoennung",
+    "nodegit": "^0.16.0",
+    "promise": "^7.1.1"
   }
 }
