@@ -44,7 +44,7 @@ function handleDelete(req, res) {
 function handlePost(req, res) {
     var remote = req.body;
 
-    if(extractRemoteByName(req.repository.remotes, remote.name))
+    if(remote.name == 'origin' || extractRemoteByName(req.repository.remotes, remote.name))
         return res.status(409).send('A Remote with that name already exists');
 
     collection.updateOne(

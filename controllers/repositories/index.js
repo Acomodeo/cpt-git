@@ -20,6 +20,7 @@ router.route('/:id')
     .delete(handleDelete);
 
 router.use('/:id/remotes', require('./remotes'));
+router.use('/:id/hook', require('./hook'));
 
 function handlePut(req, res) {
     collection.replaceOne({ _id: req.repository._id }, transformToInner(req.repository), onReplaced);
