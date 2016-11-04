@@ -29,7 +29,7 @@ function handlePost(req, res) {
                         callbacks: {
                             certificateCheck: function() { return 1; },
                             credentials: function(a,b) {
-                                return Git.Cred.userpassPlaintextNew('CODE_HERE', 'x-oauth-basic');
+                                return Git.Cred.userpassPlaintextNew(remote.credentials.user, remore.credentials.password);
                             }
                         }
                 }).then(function() {
